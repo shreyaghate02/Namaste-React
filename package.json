@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "This is a live course for React",
   "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,11 +23,11 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.12",
     "parcel": "^2.8.3",
     "process": "^0.11.10"
   },
-
   "browserlists": [
-    "last 2 versions"
+    "last 2 Chrome versions"
   ]
 }
