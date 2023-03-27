@@ -1,19 +1,46 @@
 import { restList } from "../constants";
 import RestaurantCard from "./RestaurantCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Shimmer from "./Shimmer";
 
 function filterData(searchText, restaurants) {
     const filterData = restaurants.filter((restaurant) => 
-        restaurant.data.name.includes(searchText)
+        restaurant.data.name.toLowerCase()?.includes(searchText.toLowerCase())
     );
     return filterData;
 }
 
 const Body = () => {
-  const [restaurants, setRestaurants] = useState(restList); //to create state variables
+  const [allRestaurants, setAllRestaurants] = useState([]); //to create state variables
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]); //to create state variables
   const [searchText, setSearchText] = useState(""); //to create state variables
 
-  return (
+  useEffect(() => {
+    console.log("call this when dependency is changed");
+    getRestaurants();
+  }, []); //dependency array
+  console.log("render");
+
+  async function getRestaurants() {
+    const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.0929272&lng=72.86537679999999&page_type=DESKTOP_WEB_LISTING")
+    const json = await data.json();
+    console.log(json);
+    console.log(json?.data?.cards[1]?.data?.data?.cards);
+    if (json?.data?.cards[0].cardType=="seeAllRestaurants") {
+      value = json?.data?.cards[0]?.data?.data?.cards
+    } else if (json?.data?.cards[1].cardType=="seeAllRestaurants") {
+      value = json?.data?.cards[1]?.data?.data?.cards
+    } else {
+      value = json?.data?.cards[2]?.data?.data?.cards
+    }
+    setAllRestaurants(value)
+    setFilteredRestaurants(value)
+  }
+
+  //Not render component - early return
+  if (!allRestaurants) return null;
+
+  return allRestaurants.length === 0 ? ( <Shimmer/> ) : (
     <div>
       <div className="search-container">
         <input
@@ -27,17 +54,23 @@ const Body = () => {
         />
         <button className="search-btn" onClick={() => {
             //need to filter data
-            const data = filterData(searchText, restaurants);
+            const data = filterData(searchText, allRestaurants);
             //update the state - restaurants
-            setRestaurants(data);
+            setFilteredRestaurants(data);
+            console.log(data)
         }}>Search</button>
       </div>
       <div className="restaurant-list">
-        {restaurants.map((restaurant) => {
-          return (
-            <RestaurantCard {...restaurant.data} key={restaurant.data.id} />
-          );
-        })}
+        {filteredRestaurants.length === 0 ? (
+          <h1>No restaurants match your filter!</h1>
+        ) : (
+          filteredRestaurants.map((restaurant) => {
+            restaurant.length === 0
+            return (
+              <RestaurantCard {...restaurant.data} key={restaurant.data.id} />
+            );
+          })
+      )}
       </div>
     </div>
   );
