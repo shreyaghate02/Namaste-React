@@ -1,16 +1,13 @@
 import { useState } from "react";
-
-// const authenticateUser = () => {
-//   //API call to check authentication 
-//   return true;
-// }
+import Logo from "../assets/img/foodvillalogo.jpeg";
+import { Link } from 'react-router-dom'
 
 const Title = () => (
     <a href="/">
     <img 
       className='logo'
       alt="logo"
-      src="https://cdn.dotpe.in/longtail/store-logo/1023934/dOZPIFia.jpeg" />
+      src={Logo} />
     </a>
 );
 
@@ -21,9 +18,9 @@ const Header = () => {
       <Title />
       <div className="nav-items">
         <ul>
-          <li>Home</li>
-          <li>About</li>
-          <li>Contact</li>
+          <li><Link to = "/">Home</Link></li>
+          <li><Link to = "/about">About</Link></li>
+          <li><Link to = "/contact">Contact</Link></li>
           <li>Cart</li>
         </ul>
       </div>

@@ -20,7 +20,8 @@
   "homepage": "https://github.com/shreyaghate02/Namaste-React#readme",
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
