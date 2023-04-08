@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Logo from "../assets/img/foodvillalogo.jpeg";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 
 const Title = () => (
     <a href="/">
@@ -13,6 +13,22 @@ const Title = () => (
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true); //to create state variables
+  const navigate = useNavigate();
+
+  const toggleLogin = () => {
+    console.log("isLoggedIn", isLoggedIn);
+    setIsLoggedIn(!isLoggedIn);
+    navigate('/login');
+
+    // if(!user.authenticated ) {
+    //   setIsLoggedIn(!isLoggedIn);
+    //   navigate('/login', { state: { authenticated: false } });
+    // } else {
+    //   setIsLoggedIn(!isLoggedIn);
+    //     navigate('/login', { state: { authenticated: false, msg: "You have logged out of Insta Food App. " } });
+    // }
+  }
+
   return (
     <div className="header">
       <Title />
@@ -24,11 +40,13 @@ const Header = () => {
           <li>Cart</li>
         </ul>
       </div>
-      {isLoggedIn ? (
+      {/* {isLoggedIn ? (
         <button onClick={() => setIsLoggedIn(false)}>Logout</button>
       ) : (
         <button onClick={() => setIsLoggedIn(true)}>Login</button>
-      )}
+      )} */}
+          <button className="nav-btn" onClick={() => {toggleLogin()}} > {isLoggedIn?  "Logout" : "Login" } </button>
+
       {/* <button>Login</button>
       <button>Logout</button> */}
     </div>

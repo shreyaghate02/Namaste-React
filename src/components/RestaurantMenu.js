@@ -38,29 +38,11 @@ const RestaurantMenu = () => {
     }
   }
 
-  // function findCategories(restaurant) {
-  // for (let i = 0; i < findCard(restaurant)?.groupedCard?.cardGroupMap?.REGULAR?.cards?.length; i++) {
-  // if (Object.values(findCard(restaurant).groupedCard.cardGroupMap.REGULAR.cards.filter(card => card?.card?.card?.categories))) {
-  //     return  (
-  //         <>
-  //         {/* {console.log(Object.values(findCard(restaurant).groupedCard.cardGroupMap.REGULAR.cards.card?.card?.categories.title))} */}
-  //         <ul>{Object.values(findCard(restaurant).groupedCard.cardGroupMap.REGULAR.cards).map((item) => (
-  //             <li>{item?.card?.card?.title}</li>
-  //         ))}</ul>
-  //         </>
-  //         )
-  // }
-  // }
-  // }
-
-  // console.log(findCategories(restaurant))
-
-  const foodData = 
-    findCard(restaurant)
-      .groupedCard.cardGroupMap.REGULAR.cards.filter(
-        (card) => card?.card?.card?.categories
-      ).map((card) => card?.card?.card)
-  
+  const foodData = findCard(restaurant)
+    .groupedCard.cardGroupMap.REGULAR.cards.filter(
+      (card) => card?.card?.card?.categories || card?.card?.card?.itemCards
+    )
+    .map((card) => card?.card?.card);
 
   return !restaurant ? (
     <Shimmer />
@@ -108,75 +90,56 @@ const RestaurantMenu = () => {
 
       <div>
         <>
-          <h1>Main Categories</h1>
-          {/* <ul>
-            {Object.values(
-              findCard(restaurant)
-                .groupedCard.cardGroupMap.REGULAR.cards.filter(
-                  (card) =>
-                    card?.card?.card?.categories || card?.card?.card?.itemCards
-                )
-                .map((item) => <li>{item?.card?.card?.title}</li>)
-            )}
-          </ul> */}
+          <h1>Menu</h1>
           <ul>
             {foodData.map((mainTitle) => {
-                console.log("mainTitle", mainTitle);
+              console.log("mainTitle", mainTitle);
+              if (mainTitle?.categories) {
                 return (
-                <>
+                  <>
                     <li>{mainTitle?.title}</li>
                     <ul>
-                    {
-                        mainTitle.categories.map((catergoryTitle) => {
-                            return (
-                                <>
-                                  <li>{catergoryTitle?.title}</li>
-                                  <ul>
-                                    {
-                                        catergoryTitle?.itemCards.map((item) => {
-                                            return (
-                                                <>
-                                                <li>{item?.card?.info?.name}</li>
-                                                <li>{item?.card?.info?.price}</li>
-                                                </>
-                                            )
-                                        } )
-                                    }
-                                  </ul>
-                                </>
-                            )
-                        })
-                    }
+                      {mainTitle?.categories.map((catergoryTitle) => {
+                        return (
+                          <>
+                            <li>{catergoryTitle?.title}</li>
+                            <ul>
+                              {catergoryTitle?.itemCards.map((item) => {
+                                return (
+                                  <>
+                                    <li>{item?.card?.info?.name}</li>
+                                    <li>{item?.card?.info?.price}</li>
+                                  </>
+                                );
+                              })}
+                            </ul>
+                          </>
+                        );
+                      })}
                     </ul>
-                </>
-                )
+                  </>
+                );
+              } else {
+                return (
+                  <>
+                    <li>{mainTitle?.title}</li>
+                    <ul>
+                      {mainTitle?.itemCards.map((item) => {
+                        return (
+                          <>
+                            <li>{item?.card?.info?.name}</li>
+                            <li>{item?.card?.info?.price}</li>
+                          </>
+                        );
+                      })}
+                    </ul>
+                  </>
+                );
+              }
             })}
           </ul>
         </>
-        {/* <>
-          <h1>Categories Title</h1>
-          <ul>
-            {findCard(restaurant)
-              .groupedCard.cardGroupMap.REGULAR.cards.filter(
-                (card) => card?.card?.card?.categories
-              )
-              .map((item) => {
-                item?.card?.card?.categories.map((cat) => {
-                  console.log(cat);
-                  return <li>{cat?.title}</li>;
-                });
-              })}
-          </ul>
-        </> */}
       </div>
-
-      {/* <div>
-            <h1>Menu</h1>
-            {JSON.stringify(restaurant?.cards.groupedCard)}
-            <ul>{Object.values(findCard(restaurant).groupedCard.cardGroupMap.REGULAR.cards[2].card.card).map((item) => (
-                <li key={item.card?.info?.id}>{item.card?.info?.name}</li>
-            ))}</ul>
-        </div> */}
     </div>
   );
 };
