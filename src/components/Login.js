@@ -14,13 +14,12 @@ const schema = Yup.object().shape({
 });
 
 function Login() {
-  // const navigate = useNavigate();
-  // const [user, setUser] = useState({});
+  const navigate = useNavigate();
 
-  // const handleSubmit = event => {
-  //   event.preventDefault();
-  //   navigate('/');
-  // };
+  const handleSubmit = event => {
+    event.preventDefault();
+    navigate('/');
+  };
 
     const [user, setUser] = useState({});
     // const {state} = useLocation();
@@ -60,7 +59,6 @@ function Login() {
           touched,
           handleChange,
           handleBlur,
-          handleSubmit,
         }) => (
           <div className="login">
             <div className="form">
